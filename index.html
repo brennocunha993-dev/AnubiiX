@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnubiiX - Servidor Minecraft</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // Configuração será carregada do firebase-config.js
+        window.firebaseModules = { initializeApp, getAuth, getFirestore };
+    </script>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-particles"></div>
+        <div class="gradient-orbs"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo-animation">
+                <div class="logo-cube">
+                    <div class="cube-face front">A</div>
+                    <div class="cube-face back">X</div>
+                    <div class="cube-face right">N</div>
+                    <div class="cube-face left">U</div>
+                    <div class="cube-face top">B</div>
+                    <div class="cube-face bottom">I</div>
+                </div>
+                <h1>AnubiiX</h1>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-fill"></div>
+            </div>
+            <p>Carregando servidor...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://image2url.com/images/1759432087498-4c27d902-b802-4299-bd24-c68a465aca10.jpg" alt="Logo" class="server-logo">
+                <span class="server-text">Servidor</span>
+                <div class="status-indicator online"></div>
+                <span class="status-text">Online</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active" onclick="event.preventDefault(); showHomeContent()">Início</a></li>
+                <li><a href="#features" class="nav-link">Recursos</a></li>
+                <li><a href="#support" class="nav-link">Suporte</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="openModal('login')">
+                    <i class="fas fa-user"></i>
+                    Entrar
+                </button>
+            </div>
+            <button class="btn-theme" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero active">
+            <div class="hero-container">
+                <div class="hero-content">
+
+                    
+                    <h1 class="hero-title">
+                        <span class="title-main">AnubiiX</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Servidor Minecraft otimizado com suporte para Java e Bedrock Edition. 
+                        PvP liberado durante a noite para batalhas épicas!
+                    </p>
+
+
+
+                    <!-- Connection Cards -->
+                    <div class="connection-grid">
+                        <div class="connection-card java" onclick="openConnectionModal('java')">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fab fa-java"></i>
+                                </div>
+                                <div class="card-title">
+                                    <h3>Java Edition</h3>
+                                    <p>Versões 1.16 - 1.20</p>
+                                </div>
+                            </div>
+                            <div class="card-stats">
+                                <span class="stat">
+                                    <i class="fas fa-users"></i>
+                                    <span id="java-players">156</span>
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-signal"></i>
+                                    <span>12ms</span>
+                                </span>
+                            </div>
+                            <button class="connect-btn">
+                                <i class="fas fa-play"></i>
+                                Conectar
+                            </button>
+                        </div>
+
+                        <div class="connection-card bedrock" onclick="openConnectionModal('bedrock')">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="card-title">
+                                    <h3>Bedrock Edition</h3>
+                                    <p>Mobile & Console</p>
+                                </div>
+                            </div>
+                            <div class="card-stats">
+                                <span class="stat">
+                                    <i class="fas fa-users"></i>
+                                    <span id="bedrock-players">91</span>
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-signal"></i>
+                                    <span>8ms</span>
+                                </span>
+                            </div>
+                            <button class="connect-btn">
+                                <i class="fas fa-play"></i>
+                                Conectar
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Features Section -->
+        <section id="features" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Recursos do Servidor</h2>
+                    <p>Experiências únicas te aguardam</p>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="card-icon pvp-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>PvP Noturno</h3>
+                        <p>Servidor tem PvP de noite liberado para batalhas épicas</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="card-icon speed-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3>Otimizado</h3>
+                        <p>Servidor otimizado com apenas 15ms de latência</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="card-icon support-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Java & Bedrock</h3>
+                        <p>Suporte completo para ambas as versões do Minecraft</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="card-icon security-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Anti-Cheat</h3>
+                        <p>Sistema avançado de proteção contra trapaças</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Support Section -->
+        <section id="support" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Central de Suporte</h2>
+                    <p>Precisa de ajuda? Estamos aqui para você!</p>
+                </div>
+                
+                <div class="support-grid">
+                    <div class="support-card discord">
+                        <div class="support-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <h3>Discord</h3>
+                        <p>Suporte instantâneo e comunidade ativa</p>
+                        <button class="support-btn" onclick="window.open('https://discord.gg/Z3jzkAcNqD', '_blank')">Entrar no Discord</button>
+                    </div>
+                    
+                    <div class="support-card tickets">
+                        <div class="support-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h3>Sistema de Tickets</h3>
+                        <p>Para problemas específicos e suporte técnico</p>
+                        <button class="support-btn" onclick="openTicketModal()">Abrir Ticket</button>
+                    </div>
+                    
+                    <div class="support-card faq">
+                        <div class="support-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>FAQ</h3>
+                        <p>Perguntas frequentes e respostas rápidas</p>
+                        <button class="support-btn" onclick="showFAQ()">Ver FAQ</button>
+                    </div>
+                </div>
+                
+                <div class="faq-section" id="faqSection" style="display: none;">
+                    <h3>Perguntas Frequentes</h3>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Como entrar no servidor?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Use o IP: anubix.blazebr.com para Java Edition ou sd-br6.blazebr.com:28572 para Bedrock Edition.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Quando o PvP está ativo?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>O PvP está ativo apenas durante a noite no servidor, das 18:00 às 06:00.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Como reportar um jogador?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Abra um ticket de suporte ou entre em contato conosco pelo Discord com evidências.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Sobre o Servidor</h2>
+                <button class="modal-close" onclick="closeModal('about')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="card-icon pvp-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>PvP Noturno</h3>
+                        <p>Servidor tem PvP de noite liberado para batalhas épicas</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="card-icon speed-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3>Otimizado</h3>
+                        <p>Servidor otimizado com apenas 15ms de latência</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="card-icon support-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Java & Bedrock</h3>
+                        <p>Suporte completo para ambas as versões do Minecraft</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="card-icon security-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Anti-Cheat</h3>
+                        <p>Sistema avançado de proteção contra trapaças</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Modals -->
+    <div id="java-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fab fa-java"></i> Java Edition</h2>
+                <button class="modal-close" onclick="closeModal('java')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="connection-info">
+                    <div class="ip-section">
+                        <label>IP do Servidor</label>
+                        <div class="ip-container">
+                            <input type="text" value="anubix.blazebr.com" readonly>
+                            <button class="copy-btn" onclick="copyIP('anubix.blazebr.com')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bedrock-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-mobile-alt"></i> Bedrock Edition</h2>
+                <button class="modal-close" onclick="closeModal('bedrock')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="connection-info">
+                    <div class="ip-section">
+                        <label>Endereço do Servidor</label>
+                        <div class="ip-container">
+                            <input type="text" value="sd-br6.blazebr.com" readonly>
+                            <button class="copy-btn" onclick="copyIP('sd-br6.blazebr.com')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ip-section">
+                        <label>Porta do Servidor</label>
+                        <div class="ip-container">
+                            <input type="text" value="28572" readonly>
+                            <button class="copy-btn" onclick="copyIP('28572')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Entrar</h2>
+                <button class="modal-close" onclick="closeModal('login')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button class="btn-google full-width">
+                    <i class="fab fa-google"></i>
+                    Entrar com Google
+                </button>
+                <div class="divider"></div>
+                <form class="auth-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Email ou usuário" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Senha" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Entrar</button>
+                </form>
+                <div class="form-footer">
+                    <p>Não tem conta? <a href="#" onclick="switchModal('login', 'register')">Registre-se</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Criar Conta</h2>
+                <button class="modal-close" onclick="closeModal('register')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button class="btn-google full-width" onclick="showGoogleSignup()">
+                    <i class="fab fa-google"></i>
+                    Criar conta com Google
+                </button>
+                <div class="divider"></div>
+                <form class="auth-form" id="register-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Nome" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Nick Minecraft" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Senha" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Confirmar Senha" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Criar Conta</button>
+                </form>
+                <form class="auth-form google-signup" id="google-signup-form" style="display: none;">
+                    <div class="form-group">
+                        <input type="text" placeholder="Nome de usuário válido" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Senha" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Verificação de senha" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Finalizar Cadastro</button>
+                    <button type="button" class="btn-secondary full-width" onclick="hideGoogleSignup()">Voltar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div id="ticket-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-ticket-alt"></i> Abrir Ticket</h2>
+                <button class="modal-close" onclick="closeModal('ticket')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="ticket-form">
+                    <div class="form-group">
+                        <label>Assunto:</label>
+                        <select required>
+                            <option value="">Selecione o assunto</option>
+                            <option>Problema técnico</option>
+                            <option>Report de jogador</option>
+                            <option>Bug no servidor</option>
+                            <option>Sugestão</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Seu nick no Minecraft:</label>
+                        <input type="text" placeholder="Seu nick" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição do problema:</label>
+                        <textarea placeholder="Descreva detalhadamente seu problema..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Enviar Ticket</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
