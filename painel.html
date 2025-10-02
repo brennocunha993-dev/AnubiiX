@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - AnubiiX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .painel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .painel-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .painel-card .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .server-icon { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .users-icon { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
+        .console-icon { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+        .settings-icon { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+
+        .console-output {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: #00ff00;
+            height: 100px;
+            overflow-y: auto;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0.5rem 0;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-particles"></div>
+        <div class="gradient-orbs"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://image2url.com/images/1759432087498-4c27d902-b802-4299-bd24-c68a465aca10.jpg" alt="Logo" class="server-logo">
+                <span class="server-text">Painel Admin</span>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="btn-login">
+                    <i class="fas fa-home"></i>
+                    Voltar ao Site
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content" style="padding-top: 100px;">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+                <h1 style="font-size: 2.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Painel Administrativo</h1>
+                <p style="color: #94a3b8;">Gerencie o servidor AnubiiX</p>
+            </div>
+            
+            <div class="painel-grid">
+                <div class="painel-card">
+                    <div class="card-icon server-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>Status do Servidor</h3>
+                    <div>
+                        <p>Jogadores Online: <strong>247/500</strong></p>
+                        <p>Uptime: <strong>15d 8h 32m</strong></p>
+                        <p>TPS: <strong>19.8</strong></p>
+                    </div>
+                </div>
+                
+                <div class="painel-card">
+                    <div class="card-icon users-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Gerenciar Jogadores</h3>
+                    <button class="action-btn">Ver Lista de Jogadores</button>
+                    <button class="action-btn">Banir Jogador</button>
+                    <button class="action-btn">Kickar Jogador</button>
+                </div>
+                
+                <div class="painel-card">
+                    <div class="card-icon console-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h3>Console do Servidor</h3>
+                    <div class="console-output">
+                        [INFO] Servidor iniciado com sucesso<br>
+                        [INFO] 247 jogadores conectados<br>
+                        [INFO] Sistema funcionando normalmente<br>
+                        [INFO] Backup automático realizado
+                    </div>
+                    <input type="text" placeholder="Digite um comando..." style="width: 100%; margin-top: 1rem; padding: 0.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+                </div>
+                
+                <div class="painel-card">
+                    <div class="card-icon settings-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Configurações</h3>
+                    <div>
+                        <p>PvP Noturno: <input type="checkbox" checked></p>
+                        <p>Max Jogadores: <input type="number" value="500" style="width: 80px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.25rem;"></p>
+                        <p>Dificuldade: 
+                            <select style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.25rem;">
+                                <option>Fácil</option>
+                                <option selected>Normal</option>
+                                <option>Difícil</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
